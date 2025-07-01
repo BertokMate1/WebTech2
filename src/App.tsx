@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
-import Login from './components/Login';
-import ProductList from './components/ProductList';
-import AddProductForm from './components/AddProductForm';
+import Login from './components/login/Login';
+import ProductList from './components/productlist/ProductList';
+import AddProductForm from './components/productform/AddProductForm';
 import { Product } from './types';
 import { fetchProducts, addProduct } from './services/api';
 import { Container, Box } from '@mui/material';
