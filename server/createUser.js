@@ -1,7 +1,7 @@
 require('dotenv').config();
 const mongoose = require('mongoose');
 const bcrypt = require('bcrypt');
-const User = require('./models/User'); // Path to your User model
+const User = require('./models/User');
 
 const createInitialUser = async () => {
   try {

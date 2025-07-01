@@ -14,8 +14,8 @@ export const api = axios.create({
 export const loginRequest = (
   username: string,
   password: string
-): Promise<AxiosResponse<{ token: string }>> => // Add response type
-  api.post<{ token: string }>('/login', { username, password }); // Specify expected response
+): Promise<AxiosResponse<{ token: string }>> =>
+  api.post<{ token: string }>('/login', { username, password });
 
 // Termékek
 export const fetchProducts = (): Promise<AxiosResponse<Product[]>> =>
