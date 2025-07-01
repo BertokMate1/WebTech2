@@ -1,26 +1,47 @@
-import React from 'react';
-import logo from './logo.svg';
-import './App.css';
+import React, { useState, useEffect } from 'react';
+import Login from './components/Login';
+import ProductList from './components/ProductList';
+import AddProductForm from './components/AddProductForm';
+import { Product } from './types';
+import { fetchProducts, addProduct } from './services/api';
+import { Container, Box } from '@mui/material';
+import { AxiosError, AxiosResponse } from 'axios';
 
-function App() {
+export default function App() {
+  const [isLoggedIn, setIsLoggedIn] = useState<boolean>(false);
+  const [products, setProducts] = useState<Product[]>([]);
+
+  useEffect(() => {
+    if (!isLoggedIn) return;
+    fetchProducts()
+      .then((res: AxiosResponse<Product[]>) => {
+        setProducts(res.data);
+      })
+      .catch((err: AxiosError) => {
+        console.error('Hiba a termékek betöltése közben:', err.message);
+      });
+  }, [isLoggedIn]);
+
+  const handleAdd = (name: string, price: number) => {
+    addProduct({ name, price })
+      .then((res: AxiosResponse<Product>) => {
+        setProducts(prev => [...prev, res.data]);
+      })
+      .catch((err: AxiosError) => {
+        alert('Hiba a termék hozzáadásakor: ' + err.message);
+      });
+  };
+
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.tsx</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
+    <Container maxWidth="sm" sx={{ mt: 5 }}>
+      {!isLoggedIn ? (
+        <Login onSuccess={() => setIsLoggedIn(true)} />
+      ) : (
+        <Box>
+          <ProductList products={products} />
+          <AddProductForm onAdd={handleAdd} existingNames={products.map(p => p.name)} />
+        </Box>
+      )}
+    </Container>
   );
 }
-
-export default App;
