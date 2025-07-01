@@ -4,8 +4,9 @@ This project is a record keeping page, which keeps track of item names and their
 
 ## Available Scripts
 
-In the server directory, you can run:\
-createUser.js to make a user in the database.
+In the server directory, you can run:
+### `node createUser.js`
+ to make a user in the database.
 
 ### `npm start`
 
